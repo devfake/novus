@@ -2,6 +2,15 @@
 
   namespace Devfake\Novus;
 
+  /**
+   * Novus.
+   * JSON-File Database For PHP.
+   *
+   * @author Viktor Geringer <devfakeplus@googlemail.com>
+   * @version 0.1.0
+   * @license The MIT License (MIT)
+   * @link https://github.com/devfake/novus
+   */
   class Novus implements Database {
 
     /**
@@ -465,11 +474,13 @@
       return $data;
     }
 
+    /**
+     * Iterate and check if fields available in table.
+     */
     private function checkForErrors($values, $tableFile)
     {
       $errors = [];
 
-      // Iterate and check if values available in table.
       foreach($values as $key => $value) {
         $i = 0;
         foreach($tableFile->fields as $k => $v) {
