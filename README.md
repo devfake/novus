@@ -18,6 +18,7 @@ The syntax is a little like more typical sql, and not like ORM.
 * [Where Conditions](#where-conditions)
 * [Update Data](#update-data)
 * [Delete And Remove](#delete-and-remove)
+* [Last Primary Key](#last-primary-key)
 * [ToDo](#todo)
 
 ## Get Started
@@ -249,6 +250,12 @@ With `remove()` you can remove a complete table file.
 ```php
 $novus->table('users')->remove();
 $novus->table('users')->remove(true);
+```
+
+## Last Primary Key
+
+```php
+$key = $novus->table('users')->lastID();
 ```
 
 ## ToDo
