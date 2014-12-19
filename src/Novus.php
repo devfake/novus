@@ -157,28 +157,7 @@
       $this->handleTableConditions(true);
 
       $tableFile = $this->tableFile();
-      $newTableFile = [];
-
-      // Flat the data array to work with.
-      foreach($tableFile->data as $data) {
-        $newTableFile[] = array_map([__NAMESPACE__ . '\Helper', 'flatten'], $data);
-      }
-
-      // Now flat the real fields.
-      $tableFile->fields = array_map([__NAMESPACE__ . '\Helper', 'flatten'], $tableFile->fields);
-
-      // Set the right fieldnames as keys.
-      foreach($newTableFile as & $new) {
-        $i = 0;
-        foreach($new as $n) {
-          if($i > count($tableFile->fields) - 1) continue;
-
-          $new[$tableFile->fields[$i]] = $new[$i];
-          unset($new[$i]);
-
-          $i++;
-        }
-      }
+      $newTableFile = $this->flattenData($tableFile);
 
       $newTableFile = $this->checkConditions($newTableFile);
 
@@ -346,6 +325,32 @@
     }
 
     /**
+     * Get the first data of a table.
+     */
+    public function first()
+    {
+      $this->handleTableConditions(true);
+
+      $tableFile = $this->tableFile();
+      $tableFile = $this->flattenData($tableFile);
+
+      return count($tableFile) ? $tableFile[0] : [];
+    }
+
+    /**
+     * Get the last data of a table.
+     */
+    public function last()
+    {
+      $this->handleTableConditions(true);
+
+      $tableFile = $this->tableFile();
+      $tableFile = $this->flattenData($tableFile);
+
+      return count($tableFile) ? $tableFile[count($tableFile) - 1] : [];
+    }
+
+    /**
      * Change the primary key of a table.
      */
     public function changePrimaryKey($key)
@@ -472,6 +477,37 @@
       }
 
       return $data;
+    }
+
+    /**
+     * Flat the selected data from table and set the right key <=> value.
+     */
+    private function flattenData($tableFile)
+    {
+      $newTableFile = [];
+
+      // Flat the data array to work with.
+      foreach($tableFile->data as $data) {
+        $newTableFile[] = array_map([__NAMESPACE__ . '\Helper', 'flatten'], $data);
+      }
+
+      // Now we need to flat the real fields.
+      $tableFile->fields = array_map([__NAMESPACE__ . '\Helper', 'flatten'], $tableFile->fields);
+
+      // Set the right fieldnames as keys.
+      foreach($newTableFile as & $new) {
+        $i = 0;
+        foreach($new as $n) {
+          if($i > count($tableFile->fields) - 1) continue;
+
+          $new[$tableFile->fields[$i]] = $new[$i];
+          unset($new[$i]);
+
+          $i++;
+        }
+      }
+
+      return $newTableFile;
     }
 
     /**

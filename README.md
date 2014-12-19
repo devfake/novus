@@ -19,6 +19,7 @@ The syntax is a little like more typical sql, and not like ORM.
 * [Update Data](#update-data)
 * [Delete And Remove](#delete-and-remove)
 * [Last Primary Key](#last-primary-key)
+* [Last And First Data](#last-and-first-data)
 * [ToDo](#todo)
 
 ## Get Started
@@ -203,8 +204,8 @@ $data = $novus->table('users')->select(['username', 'email']);
 $data = $novus->table('users')->where('id = 1')->select();
 
 // Iterate over $data
-foreach($data as $key => $value) {
-  // ...
+foreach($data as $content) {
+  echo $content['username'];
 }
 ```
 
@@ -256,6 +257,16 @@ $novus->table('users')->remove(true);
 
 ```php
 $key = $novus->table('users')->lastID();
+```
+
+## Last And First Data
+
+```php
+$first = $novus->table('users')->first();
+echo $first['username'];
+
+$last = $novus->table('users')->last();
+echo $last['username'];
 ```
 
 ## ToDo
