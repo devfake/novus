@@ -271,7 +271,7 @@ echo $last['username'];
 
 ## ToDo
 
-* Finish `where()` conditions
+* Finish `where()` conditions.
 * Types for fields.
 * Maybe few simple ORM methods.
 * `removeField()` and `changePrimaryKey()` methods.
