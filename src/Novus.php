@@ -55,6 +55,92 @@
     }
 
     /**
+     * Create the table with optional fields.
+     */
+    public function create($fields = null)
+    {
+      $this->handleTableConditions();
+
+      // Create an empty database file and give them write access.
+      file_put_contents($this->tablePath(), Helper::boilerplate($this->tablename, $this->primaryKey));
+      chmod($this->tablePath(), 0777);
+
+      if($fields) {
+        $this->checkTable = false;
+        $this->addFields($fields);
+      }
+    }
+
+    /**
+     * Select specific data by values from database.
+     * Return all data if no value or the value '*' is passed.
+     */
+    public function select($values = null)
+    {
+      $this->handleTableConditions(true);
+
+      $tableFile = $this->tableFile();
+      $newTableFile = $this->flattenData($tableFile);
+
+      $newTableFile = $this->checkConditions($newTableFile);
+
+      // If the 'string-parameter-method' was passed, convert into an array for continue working.
+      if(gettype($values) === 'string') {
+        $values = array_map('trim', explode(',', $values));
+      }
+
+      if($values && $values[0] != '*') {
+        $tmpData = [];
+
+        foreach($newTableFile as $data) {
+          $tmpData[] = array_intersect_key($data, array_flip($values));
+        }
+
+        $newTableFile = $tmpData;
+      }
+
+      return $newTableFile;
+    }
+
+    /**
+     * Insert new data in file.
+     */
+    public function insert($values)
+    {
+      $this->handleTableConditions(true);
+      $values = $this->convertStringParameterToArray($values);
+
+      $tableFile = $this->tableFile();
+      $newTableFile = [];
+
+      $this->checkForErrors($values, $tableFile);
+
+      // First insert the primary key.
+      $newTableFile[] = (array) (int) $tableFile->{$this->primaryKey}++;
+
+      foreach($tableFile->fields as $key => $value) {
+        for($i = 0; $i < count($values); $i++) {
+          // Skip the primary key.
+          if($key == 0) continue;
+
+          if($value[0] == trim($values[$i][0])) {
+            $newTableFile[] = (array) trim($values[$i][1]);
+            break;
+          }
+
+          if($i == count($values) - 1) {
+            $newTableFile[] = [];
+          }
+        }
+      }
+
+      $tableFile->data[] = $newTableFile;
+
+      $newTableFile = json_encode($tableFile, JSON_UNESCAPED_UNICODE);
+      file_put_contents($this->tablePath(), $newTableFile);
+    }
+
+    /**
      * Update database.
      */
     public function update($values)
@@ -108,75 +194,6 @@
 
       $tableFile = json_encode($tableFile, JSON_UNESCAPED_UNICODE);
       file_put_contents($this->tablePath(), $tableFile);
-    }
-
-    /**
-     * Insert new data in file.
-     */
-    public function insert($values)
-    {
-      $this->handleTableConditions(true);
-      $values = $this->convertStringParameterToArray($values);
-
-      $tableFile = $this->tableFile();
-      $newTableFile = [];
-
-      $this->checkForErrors($values, $tableFile);
-
-      // First insert the primary key.
-      $newTableFile[] = (array) (int) $tableFile->{$this->primaryKey}++;
-
-      foreach($tableFile->fields as $key => $value) {
-        for($i = 0; $i < count($values); $i++) {
-          // Skip the primary key.
-          if($key == 0) continue;
-
-          if($value[0] == trim($values[$i][0])) {
-            $newTableFile[] = (array) trim($values[$i][1]);
-            break;
-          }
-
-          if($i == count($values) - 1) {
-            $newTableFile[] = [];
-          }
-        }
-      }
-
-      $tableFile->data[] = $newTableFile;
-
-      $newTableFile = json_encode($tableFile, JSON_UNESCAPED_UNICODE);
-      file_put_contents($this->tablePath(), $newTableFile);
-    }
-
-    /**
-     * Select specific data by values from database.
-     * Return all data if no value or the value '*' is passed.
-     */
-    public function select($values = null)
-    {
-      $this->handleTableConditions(true);
-
-      $tableFile = $this->tableFile();
-      $newTableFile = $this->flattenData($tableFile);
-
-      $newTableFile = $this->checkConditions($newTableFile);
-
-      // If the 'string-parameter-method' was passed, convert into an array for continue working.
-      if(gettype($values) === 'string') {
-        $values = array_map('trim', explode(',', $values));
-      }
-
-      if($values && $values[0] != '*') {
-        $tmpData = [];
-
-        foreach($newTableFile as $data) {
-          $tmpData[] = array_intersect_key($data, array_flip($values));
-        }
-
-        $newTableFile = $tmpData;
-      }
-
-      return $newTableFile;
     }
 
     /**
@@ -238,20 +255,13 @@
     }
 
     /**
-     * Create the table with optional fields.
+     * Choose a table by name.
      */
-    public function create($fields = null)
+    public function table($name)
     {
-      $this->handleTableConditions();
+      $this->tablename = $name;
 
-      // Create an empty database file and give them write access.
-      file_put_contents($this->tablePath(), Helper::boilerplate($this->tablename, $this->primaryKey));
-      chmod($this->tablePath(), 0777);
-
-      if($fields) {
-        $this->checkTable = false;
-        $this->addFields($fields);
-      }
+      return $this;
     }
 
     /**
@@ -291,16 +301,6 @@
 
       $tableFile = json_encode($tableFile, JSON_UNESCAPED_UNICODE);
       file_put_contents($this->tablePath(), $tableFile);
-    }
-
-    /**
-     * Choose a table by name.
-     */
-    public function table($name)
-    {
-      $this->tablename = $name;
-
-      return $this;
     }
 
     /**
@@ -530,7 +530,6 @@
         }
       }
 
-      // Return errors.
       if($errors) {
         throw new FieldsNotExistsException('The fields ' . implode(', ', $errors) . ' dont exists.');
       }

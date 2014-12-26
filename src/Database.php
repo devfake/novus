@@ -5,9 +5,9 @@
   interface Database {
 
     /**
-     * Update database.
+     * Create the table with optional fields.
      */
-    public function update($values);
+    public function create($fields = null);
 
     /**
      * Select specific data by values from database.
@@ -15,6 +15,16 @@
      * Return all data if no value or the value '*' is given.
      */
     public function select($values = null);
+
+    /**
+     * Insert new data in file.
+     */
+    public function insert($values);
+
+    /**
+     * Update database.
+     */
+    public function update($values);
 
     /**
      * Remove the complete database file. Save a backup in 'database/saves'.
@@ -29,19 +39,9 @@
     public function delete($delete = false);
 
     /**
-     * Insert new data in file.
-     */
-    public function insert($values);
-
-    /**
      * Conditions to specify which data to return.
      */
     public function where($conditions);
-
-    /**
-     * Create the table with optional fields.
-     */
-    public function create($fields = null);
 
     /**
      * Choose a table by name.
@@ -62,6 +62,16 @@
      * Get the last primary key of a table.
      */
     public function lastID();
+
+    /**
+     * Get the first data of a table.
+     */
+    public function first();
+
+    /**
+     * Get the last data of a table.
+     */
+    public function last();
 
     /**
      * Change the primary key of a table.
