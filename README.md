@@ -20,7 +20,7 @@ The syntax is a little like more typical sql, and not like ORM.
 * [Delete And Remove](#delete-and-remove)
 * [Last Primary Key](#last-primary-key)
 * [Last And First Data](#last-and-first-data)
-* [Find and FindOrFail](#find-and-findorfail)
+* [Find And FindOrFail](#find-and-findorfail)
 * [ToDo](#todo)
 
 ## Get Started
@@ -270,7 +270,7 @@ $last = $novus->table('users')->last();
 echo $last['username'];
 ```
 
-## Find and FindOrFail
+## Find And FindOrFail
 
 Find data by primary key. If no data found, `find()` will return an empty array and `findOrFail()` will return an exception.
 
@@ -286,6 +286,5 @@ echo $find['username'];
 
 * Finish `where()` conditions.
 * Types for fields.
-* Maybe few simple ORM methods.
-* `removeField()`, `changePrimaryKey()` and `find()` methods.
+* `removeField()`, `changePrimaryKey()` methods.
 * Write tests.
