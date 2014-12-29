@@ -19,6 +19,7 @@ The syntax is a little like more typical sql, and not like ORM.
 * [Update Data](#update-data)
 * [Delete And Remove](#delete-and-remove)
 * [Last Primary Key](#last-primary-key)
+* [Current Primary Key](#current-primary-key)
 * [Last And First Data](#last-and-first-data)
 * [Find And FindOrFail](#find-and-findorfail)
 * [ToDo](#todo)
@@ -258,6 +259,14 @@ $novus->table('users')->remove(true);
 
 ```php
 $key = $novus->table('users')->lastID();
+```
+
+## Current Primary Key
+
+Return the primary key of next insert data.
+
+```php
+$key = $novus->table('users')->currentID();
 ```
 
 ## Last And First Data

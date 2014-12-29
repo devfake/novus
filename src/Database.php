@@ -64,6 +64,11 @@
     public function lastID();
 
     /**
+     * Return the primary key of next insert data.
+     */
+    public function currentID();
+
+    /**
      * Get the first data of a table.
      */
     public function first();

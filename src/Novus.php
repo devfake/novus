@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.1.2
+   * @version 0.1.3
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -322,6 +322,19 @@
       $tableFile = $this->tableFile();
 
       return end($tableFile->data)[0][0] ?: 0;
+    }
+
+    /**
+     * Return the primary key of next insert data.
+     */
+    public function currentID()
+    {
+      $this->handleTableConditions(true);
+
+      $tableFile = (array) $this->tableFile();
+      $keys = array_keys($tableFile);
+
+      return $tableFile[$keys[1]];
     }
 
     /**
