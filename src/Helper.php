@@ -54,3 +54,4 @@
   class NoTablenameSelectedException extends \Exception {}
   class FolderCanNotCreatedException extends \Exception {}
   class FieldsNotExistsException extends \Exception {}
+  class DataNotFoundException extends \Exception {}

@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.1.1
+   * @version 0.1.2
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -348,6 +348,32 @@
       $tableFile = $this->flattenData($tableFile);
 
       return count($tableFile) ? $tableFile[count($tableFile) - 1] : [];
+    }
+
+    /**
+     * Find data by primary key.
+     */
+    public function find($id)
+    {
+      $this->handleTableConditions(true);
+
+      $data = $this->where($this->primaryKey . ' = ' . $id)->select();
+
+      return isset($data[0]) ? $data[0] : [];
+    }
+
+    /**
+     * Find data by primary key. It no data was found, return exception.
+     */
+    public function findOrFail($id)
+    {
+      $data = $this->find($id);
+
+      if( ! $data) {
+        throw new DataNotFoundException('No data found for primary key ' . $id);
+      }
+
+      return $data;
     }
 
     /**

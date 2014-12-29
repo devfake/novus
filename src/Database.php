@@ -74,6 +74,16 @@
     public function last();
 
     /**
+     * Find data by primary key.
+     */
+    public function find($id);
+
+    /**
+     * Find data by primary key. It no data was found, return exception.
+     */
+    public function findOrFail($id);
+
+    /**
      * Change the primary key of a table.
      */
     public function changePrimaryKey($key);
