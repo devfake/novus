@@ -50,7 +50,7 @@ Feature release will have a bootstrap file if you don't want to use composer.
 Let's see a quick overview of the syntax:
 
 ```php
-$novus = new \Devfake\Novus\Novus();
+$novus = new \Devfake\Novus\Database();
 
 // Create a new 'users' table.
 $novus->table('users')->create('username, password, email');
@@ -90,14 +90,14 @@ Once you have created the object, you can normally work with them.
 However, there is a little rule: You must always specify which table you're working on at the beginning with `table()`:
 
 ```php
-$novus = new \Devfake\Novus\Novus();
+$novus = new \Devfake\Novus\Database();
 $novus->table('myTable')->myMethods();
 ```
 
 But you can also specify directly a table for the object:
 
 ```php
-$myTable = new \Devfake\Novus\Novus('myTable');
+$myTable = new \Devfake\Novus\Database('myTable');
 $myTable->myMethods();
 ```
 
@@ -109,10 +109,10 @@ You can pass a few options when you instantiate your class.
 
 ```php
 // Pass a single string to specify directly a table.
-$novus = new \Devfake\Novus\Novus('myTable');
+$novus = new \Devfake\Novus\Database('myTable');
 
 // Or pass a array with conditions.
-$novus = new \Devfake\Novus\Novus([
+$novus = new \Devfake\Novus\Database([
   'table' => 'myTable',
   'path' => 'myPathForDatabaseFiles',
   'primaryKey' => 'Number'
