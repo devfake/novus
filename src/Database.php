@@ -66,7 +66,7 @@
     /**
      * Return the primary key of next insert data.
      */
-    public function currentID();
+    public function nextID();
 
     /**
      * Get the first data of a table.

@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.1.3
+   * @version 0.1.4
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -327,7 +327,7 @@
     /**
      * Return the primary key of next insert data.
      */
-    public function currentID()
+    public function nextID()
     {
       $this->handleTableConditions(true);
 
