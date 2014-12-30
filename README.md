@@ -100,6 +100,9 @@ But you can also specify directly a table for the object:
 ```php
 $myTable = new \Devfake\Novus\Database('myTable');
 $myTable->myMethods();
+
+$users = new \Devfake\Novus\Database('users');
+$users->orderBy('username, email')->select('username, email, date');
 ```
 
 This way is recommended if you are working only with a few tables, or want to make your code a bit more readable. And of course, you have less to write.
