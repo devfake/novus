@@ -21,7 +21,9 @@
         if( ! mkdir(self::rootPath() . '/' . $databasePath, 0777, true)) {
           throw new FolderCanNotCreatedException('Database Folder ' . $databasePath . ' could not be created. Check your permissions.');
         }
+      }
 
+      if( ! is_dir(self::rootPath() . '/' . $databasePath . '/saves/')) {
         if( ! mkdir(self::rootPath() . '/' . $databasePath . '/saves/', 0777, true)) {
           throw new FolderCanNotCreatedException('Folder for saves in ' . $databasePath . ' could not be created. Check your permissions.');
         }

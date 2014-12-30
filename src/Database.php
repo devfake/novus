@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.2.1
+   * @version 0.2.2
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
