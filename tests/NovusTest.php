@@ -1,6 +1,6 @@
 <?php
 
-  require '../src/Novus.php';
+  require '../src/Database.php';
   date_default_timezone_set("Europe/Berlin");
 
   class NovusTest extends PHPUnit_Framework_TestCase {
@@ -14,7 +14,7 @@
     public function setUp()
     {
       $this->dir = __DIR__ . '/database';
-      $this->novus = new Novus(array(
+      $this->novus = new Database(array(
         'primaryKey' => 'id',
         'path' => 'database',
         'table' => 'test_db'
