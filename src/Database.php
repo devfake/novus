@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.2.0
+   * @version 0.2.1
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -43,6 +43,11 @@
      * Saves all condition expressions.
      */
     private $conditions = ['=' => [], '>' => [], '<' => [], '!=' => [], '<=' => [], '>=' => []];
+
+    /**
+     * Saves all orderBy conditions.
+     */
+    private $orderBy = [];
 
     /**
      * Unleash the option parser.
@@ -81,7 +86,6 @@
 
       $tableFile = $this->tableFile();
       $newTableFile = $this->flattenData($tableFile);
-
       $newTableFile = $this->checkConditions($newTableFile);
 
       // If the 'string-parameter-method' was passed, convert into an array for continue working.
@@ -99,7 +103,7 @@
         $newTableFile = $tmpData;
       }
 
-      return $newTableFile;
+      return $this->orderByConditions($newTableFile);
     }
 
     /**
@@ -250,6 +254,31 @@
       }
 
       $this->where = true;
+
+      return $this;
+    }
+
+    /**
+     * Order the output.
+     */
+    public function orderBy($fields)
+    {
+      if(gettype($fields) === 'array') {
+        $i = 0;
+
+        foreach($fields as $key => $value) {
+          $this->orderBy[$i][0] = is_int($key) ? $value : $key;
+          $this->orderBy[$i][1] = is_int($key) ? '' : $value;
+
+          $i++;
+        }
+      } else {
+        $fields = explode(',', $fields);
+
+        foreach($fields as $field) {
+          $this->orderBy[] = explode(' ', trim($field));
+        }
+      }
 
       return $this;
     }
@@ -493,6 +522,53 @@
       }
 
       return $tmpValues;
+    }
+
+    /**
+     * Check all conditions for order data and return them.
+     */
+    private function orderByConditions($newTableFile)
+    {
+      if($this->orderBy) {
+        $callbackData[] = $newTableFile;
+
+        foreach($this->orderBy as $orderBy) {
+          $callbackData[] = $orderBy[0];
+          // Convert ASC and DESC to own constant keys.
+          $callbackData[] = isset($orderBy[1]) ? (strtolower($orderBy[1]) == 'asc' ? 4 : 3) : 4;
+        }
+
+        return call_user_func_array([$this, "array_orderby"], $callbackData);
+      }
+
+      return $newTableFile;
+    }
+
+    /**
+     * Modified version of http://php.net/array_multisort#100534.
+     */
+    private function array_orderby()
+    {
+      $args = func_get_args();
+      $data = array_shift($args);
+
+      foreach($args as $n => $field) {
+        if(is_string($field)) {
+          $tmp = [];
+          foreach($data as $key => $row)
+            if(isset($row[$field])) {
+              $tmp[$key] = $row[$field];
+            } else {
+              throw new FieldsNotExistsException('The field ' . $args[$n] . ' dont exist.');
+            }
+          $args[$n] = $tmp;
+        }
+      }
+
+      $args[] = & $data;
+      call_user_func_array('array_multisort', $args);
+
+      return array_pop($args);
     }
 
     /**

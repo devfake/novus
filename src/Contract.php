@@ -44,6 +44,11 @@
     public function where($conditions);
 
     /**
+     * Order the output.
+     */
+    public function orderBy($fields);
+
+    /**
      * Choose a table by name.
      */
     public function table($name);

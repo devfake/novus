@@ -15,6 +15,7 @@ The syntax is a little like more typical sql, and not like ORM.
 * [Add Fields](#add-fields)
 * [Insert Data](#insert-data)
 * [Select Data](#select-data)
+* [Order Data](#order-data)
 * [Where Conditions](#where-conditions)
 * [Update Data](#update-data)
 * [Delete And Remove](#delete-and-remove)
@@ -209,6 +210,24 @@ $data = $novus->table('users')->where('id = 1')->select();
 foreach($data as $content) {
   echo $content['username'];
 }
+```
+
+## Order Data
+
+Order your output with the `orderBy()` method.
+
+```php
+// Order by id ASC and username DESC.
+$order = $novus->table('users')->orderBy('id asc, username desc')->select();
+// Or with array spelling.
+$order = $novus->table('users')->orderBy(['id' => 'asc', 'username' => 'desc'])->select();
+
+// ASC is default passed.
+$order = $novus->table('users')->orderBy('id, username desc')->select();
+$order = $novus->table('users')->orderBy(['id', 'username' => 'desc')->select();
+
+// ASC and DESC are case insensitive.
+$order = $novus->table('users')->orderBy('id DESC, username ASC')->select();
 ```
 
 ## Where Conditions
