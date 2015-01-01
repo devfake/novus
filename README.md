@@ -68,7 +68,7 @@ $data = $novus->table('users')->select();
 // Select only username and email.
 $data = $novus->table('users')->select('username, email');
 
-// Select all data from where id = 1.
+// Select all data from 'users' where id = 1.
 $data = $novus->table('users')->where('id = 1')->select();
 
 // Update username.
