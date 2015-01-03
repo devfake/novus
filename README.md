@@ -16,6 +16,7 @@ The syntax is a little like more typical sql, and not like ORM.
 * [Insert Data](#insert-data)
 * [Select Data](#select-data)
 * [Order Data](#order-data)
+* [Limit Data](#limit-data)
 * [Where Conditions](#where-conditions)
 * [Update Data](#update-data)
 * [Delete And Remove](#delete-and-remove)
@@ -232,6 +233,44 @@ $order = $novus->table('users')->orderBy(['id', 'username' => 'desc')->select();
 // ASC and DESC are case insensitive.
 $order = $novus->table('users')->orderBy('id DESC, username ASC')->select();
 ```
+
+## Limit Data
+
+```php
+1 => first_user, 2 => second_user, 3 => third_user, 4 => fourth_user, 5 => fifth_user, 6 => sixth_user, 7 => seventh_user 
+```
+
+These are pseudo data of the users table. With them we demonstrate the `limit()` method.
+
+```php
+// Select the first three data.
+$limit = $novus->table('users')->limit(3)->select();
+1 => first_user, 2 => second_user, 3 => third_user
+
+// Select the next three data after the first 2.
+$limit = $novus->table('users')->limit(2, 4)->select();
+3 => third_user, 4 => fourth_user, 5 => fifth_user, 6 => sixth_user
+
+// Select the last three data in reverse.
+$limit = $novus->table('users')->limit(3, true)->select();
+5 => fifth_user, 6 => sixth_user, 7 => seventh_user
+
+// Select the last four data in reverse before the last two.
+$limit = $novus->table('users')->limit(2, 4, true)->select();
+2 => second_user, 3 => third_user, 4 => fourth_user, 5 => fifth_user
+```
+
+The reverse mode return the data in ASC. Use case is for example a chat.
+ 
+If you don't want this, order them, for example by id.
+
+```php
+// Select the last four data without reverse.
+$limit = $novus->table('users')->limit(4, true)->orderBy('id DESC')->select();
+7 => seventh_user, 6 => sixth_user, 5 => fifth_user, 4 => fourth_user
+```
+
+It does not matter whether the `orderBy()` method is written before or after `limit()`.
 
 ## Where Conditions
 

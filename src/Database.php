@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.2.2
+   * @version 0.2.3
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -50,6 +50,11 @@
     private $orderBy = [];
 
     /**
+     * Saves all limit conditions.
+     */
+    private $limit = ['limit' => null, 'offset' => null, 'reverse' => false];
+
+    /**
      * Unleash the option parser.
      */
     public function __construct($options = null)
@@ -89,7 +94,7 @@
       $newTableFile = $this->checkConditions($newTableFile);
 
       // If the 'string-parameter-method' was passed, convert into an array for continue working.
-      if(gettype($values) === 'string') {
+      if(is_string($values)) {
         $values = array_map('trim', explode(',', $values));
       }
 
@@ -102,6 +107,8 @@
 
         $newTableFile = $tmpData;
       }
+
+      $newTableFile = $this->limitConditions($newTableFile);
 
       return $this->orderByConditions($newTableFile);
     }
@@ -263,7 +270,7 @@
      */
     public function orderBy($fields)
     {
-      if(gettype($fields) === 'array') {
+      if(is_array($fields)) {
         $i = 0;
 
         foreach($fields as $key => $value) {
@@ -279,6 +286,18 @@
           $this->orderBy[] = explode(' ', trim($field));
         }
       }
+
+      return $this;
+    }
+
+    /**
+     * Limit the output.
+     */
+    public function limit($limit, $offset = null, $reverse = false)
+    {
+      $this->limit['limit'] = $limit;
+      $this->limit['offset'] = is_bool($offset) ? null : $offset;
+      $this->limit['reverse'] = is_bool($offset) ? $offset : $reverse;
 
       return $this;
     }
@@ -301,7 +320,7 @@
       $this->handleTableConditions(true);
 
       // If the 'string-parameter-method' was passed, convert into an array for continue working.
-      if(gettype($fields) === 'string') {
+      if(is_string($fields)) {
         $fields = array_map('trim', explode(',', $fields));
       }
 
@@ -431,11 +450,11 @@
      */
     private function parseOptions($options)
     {
-      if(gettype($options) === 'string') {
+      if(is_string($options)) {
         return $this->tablename = $options;
       }
 
-      if(gettype($options) === 'array') {
+      if(is_array($options)) {
         foreach($options as $key => $value) {
           switch($key) {
             case 'table': $this->tablename = $value; break;
@@ -506,7 +525,7 @@
       $tmpValues = [];
       $i = 0;
 
-      if(gettype($values) === 'string') {
+      if(is_string($values)) {
         $values = array_map('trim', explode(',', $values));
 
         foreach($values as $key => $value) {
@@ -525,12 +544,45 @@
     }
 
     /**
+     * Check limit conditions and update the data.
+     */
+    private function limitConditions($table)
+    {
+      $limit = $this->limit['limit'];
+      $offset = $this->limit['offset'];
+      $reverse = $this->limit['reverse'];
+
+      if($limit) {
+
+        if($reverse) {
+          $table = array_reverse($table);
+        }
+
+        if($offset && is_int($offset)) {
+          if($reverse) {
+            return array_reverse(array_slice($table, $limit, $offset));
+          }
+
+          return array_slice($table, $limit, $offset);
+        }
+
+        if($reverse) {
+          return array_reverse(array_slice($table, 0, $limit));
+        }
+
+        return array_slice($table, 0, $limit);
+      }
+
+      return $table;
+    }
+
+    /**
      * Check all conditions for order data and return them.
      */
-    private function orderByConditions($newTableFile)
+    private function orderByConditions($table)
     {
       if($this->orderBy) {
-        $callbackData[] = $newTableFile;
+        $callbackData[] = $table;
 
         foreach($this->orderBy as $orderBy) {
           $callbackData[] = $orderBy[0];
@@ -541,7 +593,7 @@
         return call_user_func_array([$this, "array_orderby"], $callbackData);
       }
 
-      return $newTableFile;
+      return $table;
     }
 
     /**

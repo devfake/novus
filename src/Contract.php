@@ -49,6 +49,11 @@
     public function orderBy($fields);
 
     /**
+     * Limit the output.
+     */
+    public function limit($limit, $offset = null, $reverse = false);
+
+    /**
      * Choose a table by name.
      */
     public function table($name);
