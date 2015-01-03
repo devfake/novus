@@ -247,7 +247,7 @@ These are pseudo data of the users table. With them we demonstrate the `limit()`
 $limit = $novus->table('users')->limit(3)->select();
 1 => first_user, 2 => second_user, 3 => third_user
 
-// Select the next three data after the first 2.
+// Select the next four data after the first 2.
 $limit = $novus->table('users')->limit(2, 4)->select();
 3 => third_user, 4 => fourth_user, 5 => fifth_user, 6 => sixth_user
 
@@ -358,5 +358,5 @@ echo $find['username'];
 
 * Finish `where()` conditions.
 * Types for fields.
-* `removeField()`, `changePrimaryKey()` and `limit()` methods.
+* `removeField()`, `changePrimaryKey()` methods.
 * Write tests.
