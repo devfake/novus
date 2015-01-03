@@ -350,7 +350,7 @@
 
       $tableFile = $this->tableFile();
 
-      return end($tableFile->data)[0][0] ?: 0;
+      return end($tableFile->data)[0][0] ?: null;
     }
 
     /**

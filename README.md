@@ -279,6 +279,8 @@ $novus->table('users')->remove(true);
 
 ## Last Primary Key
 
+Return the primary key of last data. If data is empty, the method returns `null`.
+
 ```php
 $key = $novus->table('users')->lastID();
 ```
