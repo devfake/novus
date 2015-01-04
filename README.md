@@ -274,12 +274,15 @@ It does not matter whether the `orderBy()` method is written before or after `li
 
 ## Where Conditions
 
-**Warning:** This method is currently very limited. It only works with `select()` and only one `equal` query. But i will fix it soon.
+**Warning:** This method is currently very limited. It only works with `select()` and only one query. But i will fix it soon.
 
 ```php
 $data = $novus->table('users')->where('id = 1')->select();
 $data = $novus->table('users')->where('username = Arya')->select();
+$data = $novus->table('users')->where('id > 10')->select();
 ```
+
+Use `<=, >=, !=, =, > and <`. 
 
 ## Update Data
 

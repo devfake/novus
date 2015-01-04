@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.2.4
+   * @version 0.2.5
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -42,7 +42,7 @@
     /**
      * Saves all condition expressions.
      */
-    private $conditions = ['=' => [], '>' => [], '<' => [], '!=' => [], '<=' => [], '>=' => []];
+    private $conditions = ['<=' => [], '>=' => [], '!=' => [], '=' => [], '>' => [], '<' => []];
 
     /**
      * Saves all orderBy conditions.
@@ -91,7 +91,7 @@
 
       $tableFile = $this->tableFile();
       $newTableFile = $this->flattenData($tableFile);
-      $newTableFile = $this->checkConditions($newTableFile);
+      $newTableFile = $this->checkWhereConditions($newTableFile);
 
       // If the 'string-parameter-method' was passed, convert into an array for continue working.
       if(is_string($values)) {
@@ -260,6 +260,19 @@
         // Remove all other condition arrays.
         if(count($this->conditions[$key]) <= 1) {
           unset($this->conditions[$key]);
+        }
+      }
+
+      // Remove all other condition arrays. Need to rewrite.
+      foreach($this->conditions as $key => $value) {
+        foreach($value as $val) {
+          $lastChar = substr($val, -1);
+          $firstChar = $val[0];
+
+          if($lastChar == '=' || $lastChar == '<' || $lastChar == '>' || $lastChar == '!'
+            || $firstChar == '=' || $firstChar == '<' || $firstChar == '>' || $firstChar == '!') {
+            unset($this->conditions[$key]);
+          }
         }
       }
 
@@ -629,7 +642,7 @@
     /**
      * Check and filter the conditions.
      */
-    private function checkConditions($data)
+    private function checkWhereConditions($data)
     {
       if($this->where) {
         $temp = $data;
@@ -637,8 +650,21 @@
 
         foreach($this->conditions as $key => $value) {
           foreach($temp as $_data) {
-            if($_data[$value[0]] == $value[1]) {
-              $data[] = $_data;
+            $field = $_data[$value[0]];
+
+            switch($key) {
+              case '=':
+                if($field == $value[1]) $data[] = $_data; break;
+              case '>':
+                if($field > $value[1]) $data[] = $_data; break;
+              case '<':
+                if($field < $value[1]) $data[] = $_data; break;
+              case '!=':
+                if($field != $value[1]) $data[] = $_data; break;
+              case '<=':
+                if($field <= $value[1]) $data[] = $_data; break;
+              case '>=':
+                if($field >= $value[1]) $data[] = $_data; break;
             }
           }
         }
