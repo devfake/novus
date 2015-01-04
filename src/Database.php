@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.2.3
+   * @version 0.2.4
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -186,6 +186,9 @@
           $saved[$value] = $key;
         }
       }
+
+      // See the warning... http://uk.php.net/manual/en/control-structures.foreach.php
+      unset($saved);
 
       // Connects the new values.
       $tmpTableFile = [];

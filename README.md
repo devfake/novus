@@ -35,7 +35,7 @@ The syntax is a little like more typical sql, and not like ORM.
 
 ##### Install
 
-The easiest way to install Novus is via Composer. Add this to your `composer.json` file and run `$ composer update`:
+The easiest way to install Novus is via [Composer](https://getcomposer.org/). Add this to your `composer.json` file and run `$ composer update`:
 
 ```json
 {
@@ -247,7 +247,7 @@ These are pseudo data of the users table. With them we demonstrate the `limit()`
 $limit = $novus->table('users')->limit(3)->select();
 1 => first_user, 2 => second_user, 3 => third_user
 
-// Select the next four data after the first 2.
+// Select the next four data after the first two.
 $limit = $novus->table('users')->limit(2, 4)->select();
 3 => third_user, 4 => fourth_user, 5 => fifth_user, 6 => sixth_user
 
@@ -358,5 +358,5 @@ echo $find['username'];
 
 * Finish `where()` conditions.
 * Types for fields.
-* `removeField()`, `changePrimaryKey()` methods.
+* `removeField()` and `changePrimaryKey()` methods.
 * Write tests.
