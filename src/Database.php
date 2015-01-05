@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.2.7
+   * @version 0.2.8
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -345,6 +345,10 @@
       foreach($fields as $field) {
         // Add the new fields.
         foreach($tableFile->fields as $key => $tableField) {
+          if($tableField[0] == $field) {
+            break;
+          }
+
           if($key == count($tableFile->fields) - 1) {
             $tableFile->fields[] = (array) $field;
           }
