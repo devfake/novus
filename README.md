@@ -282,7 +282,7 @@ $data = $novus->table('users')->where('username = Arya')->select();
 $data = $novus->table('users')->where('id > 10')->select();
 ```
 
-Use `<=, >=, !=, =, > and <`. 
+Use `<=, >=, !=, =, >` and `<`. 
 
 ## Update Data
 
