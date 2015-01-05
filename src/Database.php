@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.2.6
+   * @version 0.2.7
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -218,10 +218,10 @@
     {
       $this->handleTableConditions(true);
 
-      if( ! $delete) {
-        rename($this->tablePath(), $this->savesPath());
-      } else {
+      if($delete === true) {
         unlink($this->tablePath());
+      } else {
+        rename($this->tablePath(), $this->savesPath());
       }
     }
 
@@ -236,7 +236,7 @@
       $tableFile = $this->tableFile();
 
       if(count($tableFile->data)) {
-        if( ! $delete) {
+        if($delete !== true) {
           copy($this->tablePath(), $this->savesPath());
         }
 
