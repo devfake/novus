@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.3.1
+   * @version 0.3.2
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -127,7 +127,8 @@
       $this->checkForErrors($values, $tableFile);
 
       // First insert the primary key.
-      $newTableFile[] = (array) (int) $tableFile->{$this->primaryKey}++;
+      $primaryKey = $this->nextPrimaryKey();
+      $newTableFile[] = (array) $primaryKey;
 
       foreach($tableFile->fields as $key => $value) {
         for($i = 0; $i < count($values); $i++) {
@@ -147,7 +148,12 @@
 
       $tableFile->data[] = $newTableFile;
 
-      $this->writeFile($tableFile);
+      // Increase the primary key.
+      $tableFile = (array) $tableFile;
+      $keys = array_keys($tableFile);
+      $tableFile[$keys[1]]++;
+
+      $this->writeFile((object) $tableFile);
     }
 
     /**
@@ -735,7 +741,7 @@
       // Now we need to flat the real fields.
       $tableFile->fields = array_map([__NAMESPACE__ . '\Helper', 'flatten'], $tableFile->fields);
 
-      // Set the right fieldnames as keys.
+      // Set the right field names as keys.
       foreach($newTableFile as & $new) {
         $i = 0;
         foreach($new as $n) {
