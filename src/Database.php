@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.3.0
+   * @version 0.3.1
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -488,6 +488,14 @@
     public function changePrimaryKey($key)
     {
       // TODO: Implement changePrimaryKey() method.
+    }
+
+    /**
+     * Change the fields name.
+     */
+    public function changeFields($fields)
+    {
+      // TODO: Implement changeFields() method.
     }
 
     /**

@@ -102,4 +102,9 @@
      * Change the primary key of a table.
      */
     public function changePrimaryKey($key);
+
+    /**
+     * Change the fields name.
+     */
+    public function changeFields($fields);
   }

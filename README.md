@@ -371,5 +371,5 @@ echo $find['username'];
 
 * Finish `where()` conditions.
 * Types for fields.
-* `changePrimaryKey()` method.
+* `changePrimaryKey()` and `changeFields()` methods.
 * Write tests.
