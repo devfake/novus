@@ -79,7 +79,7 @@ $novus->table('users')->update('username = Jon');
 // Delete all data from 'users'.
 $novus->table('users')->delete(true);
 
-// Delete all data from 'users' with softdelete.
+// Delete all data from 'users' with soft delete.
 $novus->table('users')->delete();
 
 // Remove complete 'users' file.
@@ -127,7 +127,7 @@ $novus = new \Devfake\Novus\Database([
 
 The `path` for your database files is relative to your root folder (or where your composers `vendor` folder is). 
 
-The default folder is `database`. There are a `saves` folder to save your softdeletes.
+The default folder is `database`. There are a `saves` folder to save your soft deletes.
 
 ## Parameter Values
 
@@ -136,7 +136,7 @@ The default folder is `database`. There are a `saves` folder to save your softde
 $novus->table('users')->create('username, email, password');
 
 // Or, pass a array in the parameter.
-$novus->table('tablename')->create(['username', 'email', 'password']);
+$novus->table('tableName')->create(['username', 'email', 'password']);
 ```
 What is the difference? The first method is clear and fast to type.
 
@@ -176,7 +176,7 @@ There is a new `database/users.json` file. Let‘s open it:
 }
 ```
 
-So, what we have in our table? First, we have `"table"`, this is our tablename, in this case `"users"`. Then comes our primary key, `"id"`. They will automatically increased.
+So, what we have in our table? First, we have `"table"`, this is our table name, in this case `"users"`. Then comes our primary key, `"id"`. They will automatically increased.
 
 Then we have our `"fields"`. The primary key will added by default.
 
@@ -307,7 +307,7 @@ $novus->table('users')->update(['username' => 'newUsername', 'email' => 'newEmai
 
 If you use `delete()` or `remove()`, novus will make a backup file in the `saves` folder. This folder is created in the beginning and is inside of your database folder.
 
-Pass `true` as parameter to avoid the softdelete.
+Pass `true` as parameter to avoid the soft delete.
 
 ##### Delete
 

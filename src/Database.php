@@ -14,9 +14,9 @@
   class Database implements Contract {
 
     /**
-     * Store the current tablename for working.
+     * Store the current table name for working.
      */
-    private $tablename = null;
+    private $tableName = null;
 
     /**
      * Your path for your database folder.
@@ -72,7 +72,7 @@
       $this->handleTableConditions();
 
       // Create an empty database file and give them write access.
-      file_put_contents($this->tablePath(), Helper::boilerplate($this->tablename, $this->primaryKey));
+      file_put_contents($this->tablePath(), Helper::boilerplate($this->tableName, $this->primaryKey));
       chmod($this->tablePath(), 0777);
 
       if($fields) {
@@ -215,7 +215,7 @@
 
     /**
      * Remove the complete database file. Save a backup in 'database/saves'.
-     * Pass 'true' in parameter to avoid the softdelete.
+     * Pass 'true' in parameter to avoid the soft delete.
      */
     public function remove($delete = false)
     {
@@ -230,7 +230,7 @@
 
     /**
      * Delete the data in a database file. Save a backup in 'database/saves'.
-     * Pass 'true' in parameter to avoid the softdelete.
+     * Pass 'true' in parameter to avoid the soft delete.
      */
     public function delete($delete = false)
     {
@@ -325,7 +325,7 @@
      */
     public function table($name)
     {
-      $this->tablename = $name;
+      $this->tableName = $name;
 
       return $this;
     }
@@ -509,13 +509,13 @@
     private function parseOptions($options)
     {
       if(is_string($options)) {
-        return $this->tablename = $options;
+        return $this->tableName = $options;
       }
 
       if(is_array($options)) {
         foreach($options as $key => $value) {
           switch($key) {
-            case 'table': $this->tablename = $value; break;
+            case 'table': $this->tableName = $value; break;
             case 'path': $this->databasePath = $value; break;
             case 'primaryKey': $this->primaryKey = $value; break;
           }
@@ -530,15 +530,15 @@
     {
       if( ! $this->checkTable) return;
 
-      // Check if a tablename is selected.
-      if( ! $this->tablename) {
-        throw new NoTablenameSelectedException('No table selected.');
+      // Check if a table name is selected.
+      if( ! $this->tableName) {
+        throw new NoTableNameSelectedException('No table selected.');
       }
 
       // Check if table MUST exists.
       if($exists) {
         if( ! file_exists($this->tablePath())) {
-          throw new TableDoesNotExistsException('Table ' . $this->tablename . ' does not exists.');
+          throw new TableDoesNotExistsException('Table ' . $this->tableName . ' does not exists.');
         }
 
         return;
@@ -546,7 +546,7 @@
 
       // Check if table must NOT exists.
       if(file_exists($this->tablePath())) {
-        throw new TableAlreadyExistsException('Table ' . $this->tablename . ' already exists.');
+        throw new TableAlreadyExistsException('Table ' . $this->tableName . ' already exists.');
       }
     }
 
@@ -555,7 +555,7 @@
      */
     private function tablePath()
     {
-      return Helper::rootPath() . '/' . $this->databasePath . '/' . $this->tablename . '.json';
+      return Helper::rootPath() . '/' . $this->databasePath . '/' . $this->tableName . '.json';
     }
 
     /**
@@ -563,7 +563,7 @@
      */
     private function savesPath()
     {
-      return Helper::rootPath() . '/' . $this->databasePath . '/saves/' . $this->tablename . '-' . date('d.m.Y--H-i', time()) . '.json';
+      return Helper::rootPath() . '/' . $this->databasePath . '/saves/' . $this->tableName . '-' . date('d.m.Y--H-i', time()) . '.json';
     }
 
     /**

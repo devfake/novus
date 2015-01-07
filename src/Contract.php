@@ -28,13 +28,13 @@
 
     /**
      * Remove the complete database file. Save a backup in 'database/saves'.
-     * Pass 'true' in parameter to avoid the softdelete.
+     * Pass 'true' in parameter to avoid the soft delete.
      */
     public function remove($delete = false);
 
     /**
      * Delete the data in a database file. Save a backup in 'database/saves'.
-     * Pass 'true' in parameter to avoid the softdelete.
+     * Pass 'true' in parameter to avoid the soft delete.
      */
     public function delete($delete = false);
 
