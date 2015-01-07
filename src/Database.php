@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.2.9
+   * @version 0.2.10
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -147,8 +147,7 @@
 
       $tableFile->data[] = $newTableFile;
 
-      $newTableFile = json_encode($tableFile, JSON_UNESCAPED_UNICODE);
-      file_put_contents($this->tablePath(), $newTableFile);
+      $this->writeFile($tableFile);
     }
 
     /**
@@ -206,8 +205,7 @@
 
       $tableFile->data = $tmpTableFile;
 
-      $tableFile = json_encode($tableFile, JSON_UNESCAPED_UNICODE);
-      file_put_contents($this->tablePath(), $tableFile);
+      $this->writeFile($tableFile);
     }
 
     /**
@@ -243,8 +241,7 @@
         // It delete all data. No 'where' conditions available currently.
         $tableFile->data = [];
 
-        $tableFile = json_encode($tableFile, JSON_UNESCAPED_UNICODE);
-        file_put_contents($this->tablePath(), $tableFile);
+        $this->writeFile($tableFile);
       }
     }
 
@@ -362,8 +359,7 @@
         }
       }
 
-      $tableFile = json_encode($tableFile, JSON_UNESCAPED_UNICODE);
-      file_put_contents($this->tablePath(), $tableFile);
+      $this->writeFile($tableFile);
     }
 
     /**
@@ -405,8 +401,7 @@
       $tableFile->fields = array_values($tableFile->fields);
       $tableFile->data = $tmpData ?: $tableFile->data;
 
-      $tableFile = json_encode($tableFile, JSON_UNESCAPED_UNICODE);
-      file_put_contents($this->tablePath(), $tableFile);
+      $this->writeFile($tableFile);
     }
 
     /**
@@ -644,6 +639,14 @@
       }
 
       return $table;
+    }
+
+    /**
+     * Write the new file.
+     */
+    private function writeFile($data)
+    {
+      file_put_contents($this->tablePath(), json_encode($data, JSON_UNESCAPED_UNICODE));
     }
 
     /**
