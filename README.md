@@ -13,6 +13,7 @@ The syntax is a little like more typical sql, and not like ORM.
 * [Parameter Values](#parameter-values)
 * [Create Table](#create-table)
 * [Add Fields](#add-fields)
+* [Remove Fields](#remove-fields)
 * [Insert Data](#insert-data)
 * [Select Data](#select-data)
 * [Order Data](#order-data)
@@ -189,6 +190,15 @@ $novus->table('users')->addFields('username, email');
 $novus->table('users')->addFields(['username', 'email']);
 ```
 
+## Remove Fields
+
+The `removeFields()` method also deletes the associated data.
+
+```php
+$novus->table('users')->removeFields('username, email');
+$novus->table('users')->removeFields(['username', 'email']);
+```
+
 ## Insert Data
 
 ```php
@@ -361,5 +371,5 @@ echo $find['username'];
 
 * Finish `where()` conditions.
 * Types for fields.
-* `removeField()` and `changePrimaryKey()` methods.
+* `changePrimaryKey()` method.
 * Write tests.

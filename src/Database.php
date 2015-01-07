@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.2.8
+   * @version 0.2.9
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -371,7 +371,42 @@
      */
     public function removeFields($fields)
     {
-      // TODO: Implement removeFields() method.
+      $this->handleTableConditions(true);
+      $keys = [];
+      $tmpData = [];
+
+      // If the 'string-parameter-method' was passed, convert into an array for continue working.
+      if(is_string($fields)) {
+        $fields = array_map('trim', explode(',', $fields));
+      }
+
+      $tableFile = $this->tableFile();
+
+      // Delete the fields.
+      foreach($fields as $field) {
+        foreach($tableFile->fields as $key => $tableField) {
+          if($tableField[0] == $field) {
+            $keys[] = $key;
+            unset($tableFile->fields[$key]);
+            break;
+          }
+        }
+      }
+
+      // Delete the data.
+      foreach($keys as $index) {
+        foreach($tableFile->data as $key => $tableData) {
+          unset($tableFile->data[$key][$index]);
+          $tmpData[$key] = array_values($tableFile->data[$key]);
+        }
+      }
+
+      // Reset keys.
+      $tableFile->fields = array_values($tableFile->fields);
+      $tableFile->data = $tmpData ?: $tableFile->data;
+
+      $tableFile = json_encode($tableFile, JSON_UNESCAPED_UNICODE);
+      file_put_contents($this->tablePath(), $tableFile);
     }
 
     /**
