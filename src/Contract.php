@@ -71,12 +71,12 @@
     /**
      * Get the last primary key of a table.
      */
-    public function lastID();
+    public function lastPrimaryKey();
 
     /**
      * Return the primary key of next insert data.
      */
-    public function nextID();
+    public function nextPrimaryKey();
 
     /**
      * Get the first data of a table.

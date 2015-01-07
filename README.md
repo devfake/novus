@@ -334,7 +334,7 @@ $novus->table('users')->remove(true);
 Return the primary key of last data. If data is empty, the method returns `null`.
 
 ```php
-$key = $novus->table('users')->lastID();
+$key = $novus->table('users')->lastPrimaryKey();
 ```
 
 ## Next Primary Key
@@ -342,7 +342,7 @@ $key = $novus->table('users')->lastID();
 Return the primary key of next insert data.
 
 ```php
-$key = $novus->table('users')->nextID();
+$key = $novus->table('users')->nextPrimaryKey();
 ```
 
 ## Last And First Data

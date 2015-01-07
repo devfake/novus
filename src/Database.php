@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.2.10
+   * @version 0.3.0
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -408,7 +408,7 @@
      * Get the last primary key of a table.
      * If no data exists, return 0.
      */
-    public function lastID()
+    public function lastPrimaryKey()
     {
       $this->handleTableConditions(true);
 
@@ -420,7 +420,7 @@
     /**
      * Return the primary key of next insert data.
      */
-    public function nextID()
+    public function nextPrimaryKey()
     {
       $this->handleTableConditions(true);
 
