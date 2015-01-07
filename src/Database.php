@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.3.2
+   * @version 0.3.3
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -127,8 +127,7 @@
       $this->checkForErrors($values, $tableFile);
 
       // First insert the primary key.
-      $primaryKey = $this->nextPrimaryKey();
-      $newTableFile[] = (array) $primaryKey;
+      $newTableFile[] = (array) $this->nextPrimaryKey();
 
       foreach($tableFile->fields as $key => $value) {
         for($i = 0; $i < count($values); $i++) {
