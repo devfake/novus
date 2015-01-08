@@ -15,19 +15,18 @@ The syntax is a little like more typical sql, and not like ORM.
 * [Add Fields](#add-fields)
 * [Rename Fields](#rename-fields)
 * [Remove Fields](#remove-fields)
-* [Insert Data](#insert-data)
-* [Select Data](#select-data)
-* [Order Data](#order-data)
-* [Limit Data](#limit-data)
+* [Insert](#insert)
+* [Select](#select)
+* [Order](#order)
+* [Limit](#limit)
 * [Where Conditions](#where-conditions)
-* [Update Data](#update-data)
+* [Update](#update)
 * [Delete And Remove](#delete-and-remove)
 * [Last Primary Key](#last-primary-key)
 * [Next Primary Key](#next-primary-key)
 * [Rename Primary Key](#rename-primary-key)
-* [Last And First Data](#last-and-first-data)
+* [Last And First](#last-and-first)
 * [Find And FindOrFail](#find-and-findorfail)
-* [ToDo](#todo)
 
 ## Get Started
 
@@ -210,14 +209,14 @@ $novus->table('users')->removeFields('username, email');
 $novus->table('users')->removeFields(['username', 'email']);
 ```
 
-## Insert Data
+## Insert
 
 ```php
 $novus->table('users')->insert('username = devfake, email = devfakeplus@googlemail.com');
 $novus->table('users')->insert(['username' => 'devfake', 'email' => 'devfakeplus@googlemail.com']);
 ```
 
-## Select Data
+## Select
 
 ```php
 // Select all data from 'users'.
@@ -237,7 +236,7 @@ foreach($data as $content) {
 }
 ```
 
-## Order Data
+## Order
 
 Order your output with the `orderBy()` method.
 
@@ -255,7 +254,7 @@ $order = $novus->table('users')->orderBy(['id', 'username' => 'desc')->select();
 $order = $novus->table('users')->orderBy('id DESC, username ASC')->select();
 ```
 
-## Limit Data
+## Limit
 
 ```php
 1 => first_user, 2 => second_user, 3 => third_user, 4 => fourth_user, 5 => fifth_user, 6 => sixth_user, 7 => seventh_user 
@@ -305,7 +304,7 @@ $data = $novus->table('users')->where('id > 10')->select();
 
 Use `<=, >=, !=, =, >` and `<`. 
 
-## Update Data
+## Update
 
 **Warning:** `update()` will currently update ALL data. I will fix it soon with `where()`.
 
@@ -364,7 +363,7 @@ Change your primary key of a table. This has no effect on the primary key that w
 $novus->table('users')->renamePrimaryKey('number');
 ```
 
-## Last And First Data
+## Last And First
 
 ```php
 $first = $novus->table('users')->first();
