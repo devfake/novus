@@ -24,6 +24,7 @@ The syntax is a little like more typical sql, and not like ORM.
 * [Delete And Remove](#delete-and-remove)
 * [Last Primary Key](#last-primary-key)
 * [Next Primary Key](#next-primary-key)
+* [Rename Primary Key](#rename-primary-key)
 * [Last And First Data](#last-and-first-data)
 * [Find And FindOrFail](#find-and-findorfail)
 * [ToDo](#todo)
@@ -129,6 +130,8 @@ $novus = new \Devfake\Novus\Database([
 The `path` for your database files is relative to your root folder (or where your composers `vendor` folder is). 
 
 The default folder is `database`. There are a `saves` folder to save your soft deletes.
+
+The `primaryKey` is only needed for the `create()` and (currently yet) `find()` methods.
 
 ## Parameter Values
 
@@ -353,6 +356,16 @@ Return the primary key of next insert data.
 $key = $novus->table('users')->nextPrimaryKey();
 ```
 
+## Rename Primary Key
+
+Change your primary key of a table. This has no effect on the primary key that was defined by the options.
+
+The only problem is the `find()` method, it searches the primary key from your option define. But this will soon fixed.
+
+```php
+$novus->table('users')->renamePrimaryKey('number');
+```
+
 ## Last And First Data
 
 ```php
@@ -379,5 +392,5 @@ echo $find['username'];
 
 * Finish `where()` conditions.
 * Types for fields.
-* `changePrimaryKey()` method.
+* Change detect of primary key in `find()`.
 * Write tests.

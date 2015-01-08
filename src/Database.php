@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.3.6
+   * @version 0.3.7
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -489,9 +489,29 @@
     /**
      * Change the primary key of a table.
      */
-    public function changePrimaryKey($key)
+    public function renamePrimaryKey($key)
     {
-      // TODO: Implement changePrimaryKey() method.
+      $this->handleTableConditions(true);
+      $tmpTableFile = [];
+
+      $tableFile = (array) $this->tableFile();
+
+      // Detect the old primary key, set the new and delete the old.
+      $primaryKey = array_keys($tableFile)[1];
+      $tmpTableFile[$key] = $tableFile[$primaryKey];
+      unset($tableFile[$primaryKey]);
+
+      // Order the new primary key.
+      $tableFile = array_slice($tableFile, 0, 1, true) + $tmpTableFile + array_slice($tableFile, 1, null, true);
+
+      // Change the fields value for primary key.
+      foreach($tableFile['fields'] as $index => & $field) {
+        if($index == 0) {
+          $field[0] = $key;
+        }
+      }
+
+      $this->writeFile($tableFile);
     }
 
     /**

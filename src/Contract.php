@@ -101,7 +101,7 @@
     /**
      * Change the primary key of a table.
      */
-    public function changePrimaryKey($key);
+    public function renamePrimaryKey($key);
 
     /**
      * Change the fields name.
