@@ -13,7 +13,7 @@ The syntax is a little like more typical sql, and not like ORM.
 * [Parameter Values](#parameter-values)
 * [Create Table](#create-table)
 * [Add Fields](#add-fields)
-* [Change Fields](#change-fields)
+* [Rename Fields](#rename-fields)
 * [Remove Fields](#remove-fields)
 * [Insert Data](#insert-data)
 * [Select Data](#select-data)
