@@ -106,5 +106,5 @@
     /**
      * Change the fields name.
      */
-    public function changeFields($fields);
+    public function renameFields($fields);
   }

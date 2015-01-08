@@ -13,6 +13,7 @@ The syntax is a little like more typical sql, and not like ORM.
 * [Parameter Values](#parameter-values)
 * [Create Table](#create-table)
 * [Add Fields](#add-fields)
+* [Change Fields](#change-fields)
 * [Remove Fields](#remove-fields)
 * [Insert Data](#insert-data)
 * [Select Data](#select-data)
@@ -188,6 +189,13 @@ As you can see, `"fields"` and `"data"` are arrays which contains other arrays.
 ```php
 $novus->table('users')->addFields('username, email');
 $novus->table('users')->addFields(['username', 'email']);
+```
+
+## Rename Fields
+
+```php
+$novus->table('users')->renameFields('username = users, email = mail');
+$novus->table('users')->renameFields(['username' => 'users', 'email' => 'mail']);
 ```
 
 ## Remove Fields
@@ -371,5 +379,5 @@ echo $find['username'];
 
 * Finish `where()` conditions.
 * Types for fields.
-* `changePrimaryKey()` and `changeFields()` methods.
+* `changePrimaryKey()` method.
 * Write tests.

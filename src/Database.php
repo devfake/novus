@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.3.5
+   * @version 0.3.6
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -134,8 +134,8 @@
           // Skip the primary key.
           if($key == 0) continue;
 
-          if($value[0] == trim($values[$i][0])) {
-            $newTableFile[] = (array) trim($values[$i][1]);
+          if($value[0] == $values[$i][0]) {
+            $newTableFile[] = (array) $values[$i][1];
             break;
           }
 
@@ -497,9 +497,22 @@
     /**
      * Change the fields name.
      */
-    public function changeFields($fields)
+    public function renameFields($fields)
     {
-      // TODO: Implement changeFields() method.
+      $this->handleTableConditions(true);
+      $fields = $this->convertStringParameterToArray($fields);
+
+      $tableFile = $this->tableFile();
+
+      foreach($tableFile->fields as $key => & $value) {
+        for($i = 0; $i < count($fields); $i++) {
+          if($value[0] == $fields[$i][0]) {
+            $value[0] = $fields[$i][1];
+          }
+        }
+      }
+
+      $this->writeFile($tableFile);
     }
 
     /**
@@ -591,8 +604,8 @@
       } else {
         // Restructure given array.
         foreach($values as $key => $value) {
-          $tmpValues[$i][0] = $key;
-          $tmpValues[$i][1] = $value;
+          $tmpValues[$i][0] = trim($key);
+          $tmpValues[$i][1] = trim($value);
           $i++;
         }
       }
