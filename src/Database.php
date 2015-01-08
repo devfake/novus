@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.3.7
+   * @version 0.3.8
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -148,7 +148,7 @@
       $tableFile->data[] = $newTableFile;
 
       // Increase the primary key.
-      $primaryKey = array_keys((array) $tableFile)[1];
+      $primaryKey = $this->tablePrimaryKey($tableFile);
       $tableFile->$primaryKey++;
 
       $this->writeFile($tableFile);
@@ -429,9 +429,9 @@
       $this->handleTableConditions(true);
 
       $tableFile = (array) $this->tableFile();
-      $keys = array_keys($tableFile);
+      $primaryKey = $this->tablePrimaryKey($tableFile);
 
-      return $tableFile[$keys[1]];
+      return $tableFile[$primaryKey];
     }
 
     /**
@@ -466,8 +466,9 @@
     public function find($id)
     {
       $this->handleTableConditions(true);
+      $primaryKey = $this->tablePrimaryKey($this->tableFile());
 
-      $data = $this->where($this->primaryKey . ' = ' . $id)->select();
+      $data = $this->where($primaryKey . ' = ' . $id)->select();
 
       return isset($data[0]) ? $data[0] : [];
     }
@@ -497,7 +498,7 @@
       $tableFile = (array) $this->tableFile();
 
       // Detect the old primary key, set the new and delete the old.
-      $primaryKey = array_keys($tableFile)[1];
+      $primaryKey = $this->tablePrimaryKey($tableFile);
       $tmpTableFile[$key] = $tableFile[$primaryKey];
       unset($tableFile[$primaryKey]);
 
@@ -604,6 +605,14 @@
     private function tableFile()
     {
       return json_decode(file_get_contents($this->tablePath()));
+    }
+
+    /**
+     * Get the primary key of the table.
+     */
+    private function tablePrimaryKey($tableFile)
+    {
+      return array_keys((array) $tableFile)[1];
     }
 
     /**

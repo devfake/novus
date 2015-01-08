@@ -131,7 +131,7 @@ The `path` for your database files is relative to your root folder (or where you
 
 The default folder is `database`. There are a `saves` folder to save your soft deletes.
 
-The `primaryKey` is only needed for the `create()` and (currently yet) `find()` methods.
+The `primaryKey` is only needed for the `create()` method.
 
 ## Parameter Values
 
@@ -360,8 +360,6 @@ $key = $novus->table('users')->nextPrimaryKey();
 
 Change your primary key of a table. This has no effect on the primary key that was defined by the options.
 
-The only problem is the `find()` method, it searches the primary key from your option define. But this will soon fixed.
-
 ```php
 $novus->table('users')->renamePrimaryKey('number');
 ```
@@ -392,5 +390,4 @@ echo $find['username'];
 
 * Finish `where()` conditions.
 * Types for fields.
-* Change detect of primary key in `find()`.
 * Write tests.
