@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.3.3
+   * @version 0.3.4
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -148,11 +148,10 @@
       $tableFile->data[] = $newTableFile;
 
       // Increase the primary key.
-      $tableFile = (array) $tableFile;
-      $keys = array_keys($tableFile);
-      $tableFile[$keys[1]]++;
+      $primaryKey = array_keys((array) $tableFile)[1];
+      $tableFile->$primaryKey++;
 
-      $this->writeFile((object) $tableFile);
+      $this->writeFile($tableFile);
     }
 
     /**
