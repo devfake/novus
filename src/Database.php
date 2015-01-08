@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.3.4
+   * @version 0.3.5
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -190,7 +190,7 @@
         }
       }
 
-      // See the warning... http://uk.php.net/manual/en/control-structures.foreach.php
+      // See the warning: http://uk.php.net/manual/en/control-structures.foreach.php
       unset($saved);
 
       // Connects the new values.
@@ -221,10 +221,10 @@
       $this->handleTableConditions(true);
 
       if($delete === true) {
-        unlink($this->tablePath());
-      } else {
-        rename($this->tablePath(), $this->savesPath());
+        return unlink($this->tablePath());
       }
+
+      return rename($this->tablePath(), $this->savesPath());
     }
 
     /**
@@ -410,7 +410,7 @@
 
     /**
      * Get the last primary key of a table.
-     * If no data exists, return 0.
+     * If no data exists, return null.
      */
     public function lastPrimaryKey()
     {
@@ -444,7 +444,7 @@
       $tableFile = $this->tableFile();
       $tableFile = $this->flattenData($tableFile);
 
-      return count($tableFile) ? $tableFile[0] : [];
+      return count($tableFile) ? reset($tableFile) : [];
     }
 
     /**
@@ -457,7 +457,7 @@
       $tableFile = $this->tableFile();
       $tableFile = $this->flattenData($tableFile);
 
-      return count($tableFile) ? $tableFile[count($tableFile) - 1] : [];
+      return count($tableFile) ? end($tableFile) : [];
     }
 
     /**
