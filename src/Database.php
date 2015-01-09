@@ -7,7 +7,7 @@
    * JSON-File Database For PHP.
    *
    * @author Viktor Geringer <devfakeplus@googlemail.com>
-   * @version 0.3.8
+   * @version 0.3.9
    * @license The MIT License (MIT)
    * @link https://github.com/devfake/novus
    */
@@ -93,10 +93,7 @@
       $newTableFile = $this->flattenData($tableFile);
       $newTableFile = $this->checkWhereConditions($newTableFile);
 
-      // If the 'string-parameter-method' was passed, convert into an array for continue working.
-      if(is_string($values)) {
-        $values = array_map('trim', explode(',', $values));
-      }
+      $values = $this->convertStringParameterToArrayLight($values);
 
       if($values && $values[0] != '*') {
         $tmpData = [];
@@ -336,10 +333,7 @@
     {
       $this->handleTableConditions(true);
 
-      // If the 'string-parameter-method' was passed, convert into an array for continue working.
-      if(is_string($fields)) {
-        $fields = array_map('trim', explode(',', $fields));
-      }
+      $fields = $this->convertStringParameterToArrayLight($fields);
 
       $tableFile = $this->tableFile();
 
@@ -375,10 +369,7 @@
       $keys = [];
       $tmpData = [];
 
-      // If the 'string-parameter-method' was passed, convert into an array for continue working.
-      if(is_string($fields)) {
-        $fields = array_map('trim', explode(',', $fields));
-      }
+      $fields = $this->convertStringParameterToArrayLight($fields);
 
       $tableFile = $this->tableFile();
 
@@ -641,6 +632,19 @@
 
       return $tmpValues;
     }
+
+    /**
+     * If the 'string-parameter-method' was passed, convert into an array for continue working.
+     */
+    private function convertStringParameterToArrayLight($values)
+    {
+      if(is_string($values)) {
+        return array_map('trim', explode(',', $values));
+      }
+
+      return $values;
+    }
+
 
     /**
      * Check limit conditions and update the data.
