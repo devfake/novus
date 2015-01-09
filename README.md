@@ -85,6 +85,9 @@ $novus->table('users')->delete();
 
 // Remove complete 'users' file.
 $novus->table('users')->remove();
+
+// Limit and order data.
+$novus->table('users')->where('id > 4')->limit(5)->orderBy('id desc')->select()
 ```
 
 ## First Steps
