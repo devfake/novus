@@ -10,7 +10,7 @@ The syntax is a little like more typical sql, and not like ORM.
 * [Quick Overview](#quick-overview)
 * [First Steps](#first-steps)
 * [Options](#options)
-* [Parameter Values](#parameter-values)
+* [Argument Values](#argument-values)
 * [Create Table](#create-table)
 * [Add Fields](#add-fields)
 * [Rename Fields](#rename-fields)
@@ -135,13 +135,13 @@ The default folder is `database`. There are a `saves` folder to save your soft d
 
 The `primaryKey` is only needed for the `create()` method.
 
-## Parameter Values
+## Argument Values
 
 ```php
-// First, pass a string in the parameter and separate the keywords with a comma.
+// First, pass a string as argument and separate the keywords with a comma.
 $novus->table('users')->create('username, email, password');
 
-// Or, pass a array in the parameter.
+// Or, pass a array as argument.
 $novus->table('tableName')->create(['username', 'email', 'password']);
 ```
 What is the difference? The first method is clear and fast to type.
@@ -320,7 +320,7 @@ $novus->table('users')->update(['username' => 'newUsername', 'email' => 'newEmai
 
 If you use `delete()` or `remove()`, novus will make a backup file in the `saves` folder. This folder is created in the beginning and is inside of your database folder.
 
-Pass `true` as parameter to avoid the soft delete.
+Pass `true` as argument to avoid the soft delete.
 
 ##### Delete
 
