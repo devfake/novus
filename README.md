@@ -393,3 +393,5 @@ echo $find['username'];
 * Finish `where()` conditions.
 * Types for fields.
 * Write tests.
+* Own autoloader.
+* Object access.
