@@ -562,7 +562,7 @@
       // Check if table MUST exists.
       if($exists) {
         if( ! file_exists($this->tablePath())) {
-          throw new TableDoesNotExistsException('Table ' . $this->tableName . ' does not exists.');
+          throw new TableDoesNotExistsException('Table ' . $this->tableName . ' does not exists in ' . $this->tablePath() . '.');
         }
 
         return;
@@ -570,7 +570,7 @@
 
       // Check if table must NOT exists.
       if(file_exists($this->tablePath())) {
-        throw new TableAlreadyExistsException('Table ' . $this->tableName . ' already exists.');
+        throw new TableAlreadyExistsException('Table ' . $this->tableName . ' already exists in ' . $this->tablePath() . '.');
       }
     }
 
